@@ -21,10 +21,6 @@ def post_admin_link():
     )
 
 
-def post_nav_link():
-    """Public navbar entry linking to the blog index."""
-    return f'<a href="{url_for("post.index")}">{_("Blog")}</a>'
-
-
 register_template_hook("layout.authenticated_sidebar", post_admin_link)
-register_template_hook("layout.nav", post_nav_link)
+# The public Blog entry is declared via register_nav_item() in __init__.py and
+# composed into the main nav by the theme (Menus editor) — no layout.nav hook.

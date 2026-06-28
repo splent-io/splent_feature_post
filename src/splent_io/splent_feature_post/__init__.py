@@ -1,6 +1,7 @@
 from flask import abort, render_template
 
 from splent_framework.blueprints.base_blueprint import create_blueprint
+from splent_framework.nav.nav_registry import register_nav_item
 from splent_framework.services.service_locator import register_service, service_proxy
 
 from splent_io.splent_feature_post.services import PostService
@@ -48,6 +49,8 @@ def build_permalink(app, post) -> str:
 
 def init_feature(app):
     register_service(app, "PostService", PostService)
+
+    register_nav_item(key="post", label="Blog", href="/blog", order=50)
 
     # Register the public post route from the configurable permalink structure.
     rule = _permalink_to_rule(app.config.get("POST_PERMALINK", DEFAULT_PERMALINK))
