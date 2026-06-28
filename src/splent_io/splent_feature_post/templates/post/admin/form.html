@@ -31,8 +31,8 @@
             </div>
             <div class="col-12">
                 <label class="form-label">{{ _('Featured image') }}</label>
-                <input name="featured_image" class="form-control" value="{{ post.featured_image if post else '' }}" placeholder="/static/uploads/...">
-                <div class="form-text">{{ _('Path (e.g. /static/uploads/...) or URL. The media library is at') }} <a href="/admin/media">/admin/media</a>.</div>
+                {% from "media/_picker.html" import media_picker %}
+                {{ media_picker("featured_image", post.featured_image if post else None, media, value_attr="url") }}
             </div>
             <div class="col-md-4">
                 <label class="form-label">{{ _('Published at') }}</label>

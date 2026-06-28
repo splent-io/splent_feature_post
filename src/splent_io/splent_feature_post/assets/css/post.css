@@ -1,0 +1,157 @@
+/* splent_feature_post — public blog styles.
+ *
+ * Shipped via the asset registry (register_asset in __init__.py), not inline
+ * <style>/<link> tags. Token-driven so it inherits each product's skin
+ * (--brand-* variables) rather than hard-coding colours.
+ */
+
+/* Post detail: article + related sidebar. Two columns on wide screens, the
+ * sidebar stacks under the article on narrow ones. */
+.post-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.post-main {
+    min-width: 0;
+}
+
+.post-featured {
+    display: block;
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: var(--brand-radius);
+    margin: 1rem 0;
+}
+
+/* Body images come from the WordPress import at full size — constrain them to
+   the column so they never overflow onto the sidebar. */
+.post-main .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--brand-radius);
+    margin: 1rem 0;
+}
+
+/* Defensive: nothing inside the article may push past its column. */
+.post-main {
+    overflow-wrap: anywhere;
+}
+
+.post-main img,
+.post-main iframe,
+.post-main video,
+.post-main table {
+    max-width: 100%;
+}
+
+/* Related-posts sidebar. */
+.post-aside {
+    position: sticky;
+    top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-border);
+    border-radius: var(--brand-radius);
+}
+
+.post-aside__title {
+    margin: 0 0 1rem;
+    font-family: var(--brand-font-heading);
+    font-size: 1.1rem;
+    color: var(--brand-heading);
+}
+
+.post-aside__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.post-aside__item {
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--brand-border);
+}
+
+.post-aside__item:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.post-aside__link {
+    display: block;
+    color: var(--brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.35;
+}
+
+.post-aside__link:hover {
+    text-decoration: underline;
+}
+
+.post-aside__date {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.8rem;
+    color: var(--brand-muted);
+}
+
+/* Stack on narrow screens. */
+@media (max-width: 48rem) {
+    .post-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .post-aside {
+        position: static;
+    }
+}
+
+/* Home "Latest posts" section (home.section hook). Reuses the shell's
+ * .card-grid/.card primitives for the cards; only the section header is
+ * styled here. Token-driven so it inherits each product's skin. */
+.home-latest__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.home-latest__title {
+    margin: 0;
+    font-family: var(--brand-font-heading);
+    color: var(--brand-heading);
+}
+
+.home-latest__all {
+    flex: none;
+    color: var(--brand-primary);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.home-latest__all:hover {
+    text-decoration: underline;
+}
+
+/* Constrain thumbnails so cards stay uniform regardless of source image size. */
+.home-latest .card__img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--brand-radius);
+}
+
+@media (max-width: 36rem) {
+    .home-latest__head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+}

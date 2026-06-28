@@ -66,6 +66,14 @@ def _apply_categories(post, form):
     )
 
 
+def _media_images():
+    """Image media items for the reusable media picker (featured image)."""
+    try:
+        return [m for m in service_proxy("MediaService").list_recent() if m.is_image]
+    except Exception:
+        return []
+
+
 # =====================================================================
 # ADMIN — posts
 # =====================================================================
@@ -92,7 +100,10 @@ def admin_new():
         flash(f"Added {post.title}.", "success")
         return redirect(url_for("post.admin_index"))
     return render_template(
-        "post/admin/form.html", post=None, categories=post_service.categories()
+        "post/admin/form.html",
+        post=None,
+        categories=post_service.categories(),
+        media=_media_images(),
     )
 
 
@@ -114,7 +125,10 @@ def admin_edit(post_id):
         flash(f"Updated {post.title}.", "success")
         return redirect(url_for("post.admin_index"))
     return render_template(
-        "post/admin/form.html", post=post, categories=post_service.categories()
+        "post/admin/form.html",
+        post=post,
+        categories=post_service.categories(),
+        media=_media_images(),
     )
 
 

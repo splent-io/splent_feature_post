@@ -1,0 +1,16 @@
+<section class="container section home-latest">
+    <div class="home-latest__head">
+        <h2 class="home-latest__title">{{ _('Latest posts') }}</h2>
+        <a class="home-latest__all" href="/blog">{{ _('View all') }}</a>
+    </div>
+    <div class="card-grid">
+        {% for p in posts %}
+        <a class="card" href="{{ post_url(p) }}">
+            {% if p.featured_image %}<img class="card__img" src="{{ p.featured_image }}" alt="">{% endif %}
+            <h3 class="card__title">{{ p.title }}</h3>
+            <p class="card__meta">{{ p.date.strftime('%d %b %Y') }}</p>
+            {% if p.excerpt %}<div class="card__text">{{ p.excerpt | safe }}</div>{% endif %}
+        </a>
+        {% endfor %}
+    </div>
+</section>

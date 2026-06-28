@@ -46,7 +46,7 @@
                     <td class="text-end">
                         <a href="{{ url_for('post.admin_edit', post_id=p.id) }}" class="btn btn-sm btn-outline-primary">{{ _('Edit') }}</a>
                         <form method="POST" action="{{ url_for('post.admin_delete', post_id=p.id) }}" class="d-inline" onsubmit="return confirm('{{ _('Remove this post?') }}')">
-                            <button class="btn btn-sm btn-outline-danger" type="submit" title="{{ _('Remove') }}">✕</button>
+                            <button class="btn btn-sm btn-outline-danger" type="submit" title="{{ _('Remove') }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                         </form>
                     </td>
                 </tr>

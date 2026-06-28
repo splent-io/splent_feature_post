@@ -1,0 +1,158 @@
+# English translations for splent_feature_post.
+# Copyright (C) 2026 splent-io
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: splent_feature_post\n"
+"POT-Creation-Date: 2026-06-28 00:00+0000\n"
+"PO-Revision-Date: 2026-06-28 00:00+0000\n"
+"Language: en\n"
+"Language-Team: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: src/splent_io/splent_feature_post/hooks.py:18
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:3
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:8
+msgid "Posts"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:3
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:7
+msgid "Edit post"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:3
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:7
+msgid "New post"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:8
+msgid "← Back to posts"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:21
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:25
+msgid "Title"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:25
+msgid "Excerpt"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:29
+msgid "Content"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:33
+msgid "Featured image"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:35
+msgid "Path (e.g. /static/uploads/...) or URL. The media library is at"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:38
+msgid "Published at"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:42
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:27
+msgid "Status"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:44
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:41
+msgid "Published"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:45
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:43
+msgid "Draft"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:49
+msgid "Comments"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:51
+msgid "Open"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:52
+msgid "Closed"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:56
+msgid "Categories"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:67
+msgid "No categories yet."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:72
+msgid "Cancel"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:73
+msgid "Create post"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:73
+msgid "Save changes"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:9
+msgid "Manage blog posts and their status."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:11
+msgid "+ New post"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:26
+msgid "Date"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:28
+msgid "Actions"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:47
+msgid "Edit"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:48
+msgid "Remove this post?"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:49
+msgid "Remove"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:55
+#: src/splent_io/splent_feature_post/templates/post/list.html:26
+msgid "No posts yet."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html:6
+#: src/splent_io/splent_feature_post/templates/post/list.html:3
+#: src/splent_io/splent_feature_post/templates/post/list.html:6
+msgid "Blog"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html:25
+msgid "Back to blog"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html:30
+msgid "Related posts"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:7
+msgid "News and updates."
+msgstr ""

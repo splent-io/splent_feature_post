@@ -48,18 +48,29 @@ def build_permalink(app, post) -> str:
 
 
 def init_feature(app):
+    from splent_framework.assets.asset_registry import register_asset
+
     register_service(app, "PostService", PostService)
 
     register_nav_item(key="post", label="Blog", href="/blog", order=50)
+
+    # Public blog styles (detail two-column layout + related sidebar). Shipped
+    # via the asset registry, not hand-written <link>/<style> tags.
+    register_asset(
+        "css", "post.assets", order=100, subfolder="css", filename="post.css"
+    )
 
     # Register the public post route from the configurable permalink structure.
     rule = _permalink_to_rule(app.config.get("POST_PERMALINK", DEFAULT_PERMALINK))
 
     def _post_permalink(**kwargs):
-        post = service_proxy("PostService").get_by_slug(kwargs.get("slug"))
+        service = service_proxy("PostService")
+        post = service.get_by_slug(kwargs.get("slug"))
         if post is None or post.status != "published":
             abort(404)
-        return render_template("post/detail.html", post=post)
+        return render_template(
+            "post/detail.html", post=post, related=service.related(post)
+        )
 
     app.add_url_rule(rule, endpoint="post_permalink", view_func=_post_permalink)
 

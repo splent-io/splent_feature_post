@@ -19,3 +19,50 @@ class PostService(BaseService):
 
     def categories(self):
         return Category.query.order_by(Category.name.asc()).all()
+
+    def related(self, post, limit=5):
+        """Other published posts to surface alongside ``post``.
+
+        Prefers posts that share at least one category with ``post`` (newest
+        first), then fills any remaining slots with the most recent published
+        posts. The given post is always excluded and no post appears twice.
+        Returns a list (possibly empty).
+        """
+        if post is None:
+            return []
+
+        base = Post.query.filter(
+            Post.status == "published", Post.id != post.id
+        )
+
+        related = []
+        seen = {post.id}
+
+        category_ids = [c.id for c in post.categories]
+        if category_ids:
+            same_category = (
+                base.filter(Post.categories.any(Category.id.in_(category_ids)))
+                .order_by(Post.published_at.desc())
+                .limit(limit)
+                .all()
+            )
+            for p in same_category:
+                if p.id not in seen:
+                    related.append(p)
+                    seen.add(p.id)
+
+        # Fall back to recent posts when there are not enough by category.
+        if len(related) < limit:
+            recent = (
+                base.order_by(Post.published_at.desc())
+                .limit(limit + len(seen))
+                .all()
+            )
+            for p in recent:
+                if len(related) >= limit:
+                    break
+                if p.id not in seen:
+                    related.append(p)
+                    seen.add(p.id)
+
+        return related[:limit]

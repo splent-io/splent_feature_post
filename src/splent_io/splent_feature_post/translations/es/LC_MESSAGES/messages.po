@@ -1,0 +1,166 @@
+# Spanish translations for splent_feature_post.
+# Copyright (C) 2026 splent-io
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: splent_feature_post\n"
+"POT-Creation-Date: 2026-06-28 00:00+0000\n"
+"PO-Revision-Date: 2026-06-28 00:00+0000\n"
+"Language: es\n"
+"Language-Team: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: src/splent_io/splent_feature_post/hooks.py:18
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:3
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:8
+msgid "Posts"
+msgstr "Entradas"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:3
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:7
+msgid "Edit post"
+msgstr "Editar entrada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:3
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:7
+msgid "New post"
+msgstr "Nueva entrada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:8
+msgid "← Back to posts"
+msgstr "← Volver a entradas"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:21
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:25
+msgid "Title"
+msgstr "Título"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:25
+msgid "Excerpt"
+msgstr "Extracto"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:29
+msgid "Content"
+msgstr "Contenido"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:33
+msgid "Featured image"
+msgstr "Imagen destacada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:35
+msgid "Path (e.g. /static/uploads/...) or URL. The media library is at"
+msgstr "Ruta (p. ej. /static/uploads/...) o URL. La biblioteca multimedia está en"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:38
+msgid "Published at"
+msgstr "Publicado el"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:42
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:27
+msgid "Status"
+msgstr "Estado"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:44
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:41
+msgid "Published"
+msgstr "Publicada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:45
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:43
+msgid "Draft"
+msgstr "Borrador"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:49
+msgid "Comments"
+msgstr "Comentarios"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:51
+msgid "Open"
+msgstr "Abiertos"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:52
+msgid "Closed"
+msgstr "Cerrados"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:56
+msgid "Categories"
+msgstr "Categorías"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:67
+msgid "No categories yet."
+msgstr "Aún no hay categorías."
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:72
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:73
+msgid "Create post"
+msgstr "Crear entrada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html:73
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:9
+msgid "Manage blog posts and their status."
+msgstr "Gestiona las entradas del blog y su estado."
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:11
+msgid "+ New post"
+msgstr "+ Nueva entrada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:26
+msgid "Date"
+msgstr "Fecha"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:28
+msgid "Actions"
+msgstr "Acciones"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:47
+msgid "Edit"
+msgstr "Editar"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:48
+msgid "Remove this post?"
+msgstr "¿Eliminar esta entrada?"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:49
+msgid "Remove"
+msgstr "Eliminar"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html:55
+#: src/splent_io/splent_feature_post/templates/post/list.html:26
+msgid "No posts yet."
+msgstr "Aún no hay entradas."
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html:6
+#: src/splent_io/splent_feature_post/templates/post/list.html:3
+#: src/splent_io/splent_feature_post/templates/post/list.html:6
+msgid "Blog"
+msgstr "Blog"
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html:25
+msgid "Back to blog"
+msgstr "Volver al blog"
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html:30
+msgid "Related posts"
+msgstr "Otras entradas relacionadas"
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:7
+msgid "News and updates."
+msgstr "Noticias y novedades."
+
+#: src/splent_io/splent_feature_post/templates/post/home_latest.html:3
+msgid "Latest posts"
+msgstr "Últimas publicaciones"
+
+#: src/splent_io/splent_feature_post/templates/post/home_latest.html:4
+msgid "View all"
+msgstr "Ver todas"

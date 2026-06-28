@@ -8,19 +8,35 @@
 {% endblock %}
 
 {% block content %}
-<article class="container section">
-    {% if post.featured_image %}
-    <img src="{{ post.featured_image }}" alt="" style="max-width:100%;border-radius:var(--brand-radius);margin:1rem 0">
-    {% endif %}
-    {% if post.categories %}
-    <p class="card__meta">
-        {% for c in post.categories %}<span class="badge">{{ c.name }}</span>{% endfor %}
-    </p>
-    {% endif %}
-    <div class="prose">{{ post.content | safe }}</div>
+<div class="container section post-layout">
+    <article class="post-main">
+        {% if post.show_featured %}
+        <img class="post-featured" src="{{ post.featured_image }}" alt="">
+        {% endif %}
+        {% if post.categories %}
+        <p class="card__meta">
+            {% for c in post.categories %}<span class="badge">{{ c.name }}</span>{% endfor %}
+        </p>
+        {% endif %}
+        <div class="prose">{{ post.content | safe }}</div>
 
-    {% for hook in get_template_hooks("post.comments") %}{{ hook(post) | safe }}{% endfor %}
+        {% for hook in get_template_hooks("post.comments") %}{{ hook(post) | safe }}{% endfor %}
 
-    <p style="margin-top:2rem"><a href="{{ url_for('post.index') }}">← {{ _('Back to blog') }}</a></p>
-</article>
+        <p style="margin-top:2rem"><a href="{{ url_for('post.index') }}">← {{ _('Back to blog') }}</a></p>
+    </article>
+
+    {% if related %}
+    <aside class="post-aside">
+        <h2 class="post-aside__title">{{ _('Related posts') }}</h2>
+        <ul class="post-aside__list">
+            {% for r in related %}
+            <li class="post-aside__item">
+                <a class="post-aside__link" href="{{ post_url(r) }}">{{ r.title }}</a>
+                <span class="post-aside__date">{{ r.date.strftime('%d %b %Y') }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </aside>
+    {% endif %}
+</div>
 {% endblock %}
