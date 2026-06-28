@@ -19,7 +19,7 @@
     {% endif %}
     <div class="prose">{{ post.content | safe }}</div>
 
-    {% block comments %}{% endblock %}
+    {% for hook in get_template_hooks("post.comments") %}{{ hook(post) | safe }}{% endfor %}
 
     <p style="margin-top:2rem"><a href="{{ url_for('post.index') }}">← {{ _('Back to blog') }}</a></p>
 </article>
