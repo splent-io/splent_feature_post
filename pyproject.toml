@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "splent_feature_post"
-version = "0.0.1"
+version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.13"
 
@@ -23,34 +23,30 @@ exclude = ["*.tests", "*.tests.*"]
 [tool.splent]
 cli_version = "1.11.0"
 
-# ── Feature Contract ──────────────────────────────────────────────────────────
-# Declares what this feature provides to and requires from the product.
-# Used by `splent feature:check` and `splent product:derive` for validation.
+# ── Feature Contract (auto-generated) ────────────────────────────────────────
+# Do not edit manually — re-run `splent feature:contract --write` to refresh.
 [tool.splent.contract]
 description = "post feature"
 
 [tool.splent.contract.provides]
-# Routes exposed by this feature
-routes = ["/post"]
-# Blueprint names registered into Flask
-blueprints = ["post_bp"]
-# SQLAlchemy models introduced by this feature
-models = []
-# CLI commands added by this feature
-commands = []
+routes     = ["/admin/posts", "/admin/posts/<int:post_id>/delete", "/admin/posts/<int:post_id>/edit", "/admin/posts/new", "/blog"]
+blueprints = []
+models     = ["Category", "Post"]
+commands   = ["hello"]
+hooks      = ["home.section", "layout.authenticated_sidebar"]
+services   = ["PostService"]
+signals    = []
+translations = ["en", "es"]
+docker     = []
 
 [tool.splent.contract.requires]
-# Other SPLENT features this feature depends on (e.g. ["auth", "mail"])
-features = ["theme", "media"]
-# Environment variables this feature expects to be set
-env_vars = []
+features = []
+env_vars = ["POST_PERMALINK"]
+signals  = []
 
-# ── Extension points ──────────────────────────────────────────────────────────
-# Declares what other features can override or extend via refinement.
-# See: splent feature:xray
 [tool.splent.contract.extensible]
-services = []
-templates = []
-models = []
-hooks = []
-routes = false
+services  = ["PostService"]
+templates = ["post/admin/form.html", "post/admin/list.html", "post/detail.html", "post/home_latest.html", "post/index.html", "post/list.html"]
+models    = ["Category", "Post"]
+hooks     = ["home.section", "layout.authenticated_sidebar", "post.comments"]
+routes    = false

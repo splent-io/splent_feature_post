@@ -39,7 +39,9 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_post_slug"), "post", ["slug"], unique=True)
-    op.create_index(op.f("ix_post_published_at"), "post", ["published_at"], unique=False)
+    op.create_index(
+        op.f("ix_post_published_at"), "post", ["published_at"], unique=False
+    )
 
     op.create_table(
         "post_category",

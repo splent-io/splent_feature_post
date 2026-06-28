@@ -61,9 +61,7 @@ def _form_to_data(form):
 
 def _apply_categories(post, form):
     ids = [int(x) for x in form.getlist("categories") if x]
-    post.categories = (
-        Category.query.filter(Category.id.in_(ids)).all() if ids else []
-    )
+    post.categories = Category.query.filter(Category.id.in_(ids)).all() if ids else []
 
 
 def _media_images():

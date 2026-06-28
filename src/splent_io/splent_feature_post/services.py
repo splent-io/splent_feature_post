@@ -31,9 +31,7 @@ class PostService(BaseService):
         if post is None:
             return []
 
-        base = Post.query.filter(
-            Post.status == "published", Post.id != post.id
-        )
+        base = Post.query.filter(Post.status == "published", Post.id != post.id)
 
         related = []
         seen = {post.id}
@@ -54,9 +52,7 @@ class PostService(BaseService):
         # Fall back to recent posts when there are not enough by category.
         if len(related) < limit:
             recent = (
-                base.order_by(Post.published_at.desc())
-                .limit(limit + len(seen))
-                .all()
+                base.order_by(Post.published_at.desc()).limit(limit + len(seen)).all()
             )
             for p in recent:
                 if len(related) >= limit:
