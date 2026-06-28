@@ -116,9 +116,9 @@
  * styled here. Token-driven so it inherits each product's skin. */
 .home-latest__head {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .4rem;
     margin-bottom: 1.5rem;
 }
 

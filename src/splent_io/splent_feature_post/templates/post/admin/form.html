@@ -3,7 +3,7 @@
 {% block title %}{{ _('Edit post') if post else _('New post') }}{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column align-items-start gap-2 mb-4">
     <h1 class="h3 mb-0">{{ _('Edit post') if post else _('New post') }}</h1>
     <a href="{{ url_for('post.admin_index') }}" class="btn btn-outline-secondary">{{ _('← Back to posts') }}</a>
 </div>
@@ -83,7 +83,9 @@ tinymce.init({
     height: 500,
     menubar: true,
     plugins: 'lists link image code table',
-    toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image | code'
+    toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image | code',
+    promotion: false,
+    branding: false
 });
 </script>
 {% endblock %}
