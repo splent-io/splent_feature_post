@@ -1,0 +1,26 @@
+{% extends "public_base.html" %}
+
+{% block title %}{{ post.title }} — {{ SPLENT_APP }}{% endblock %}
+
+{% block hero %}
+    {{ render_block('hero', eyebrow=_('Blog'), title=post.title,
+                    subtitle=post.date.strftime('%d %b %Y')) }}
+{% endblock %}
+
+{% block content %}
+<article class="container section">
+    {% if post.featured_image %}
+    <img src="{{ post.featured_image }}" alt="" style="max-width:100%;border-radius:var(--brand-radius);margin:1rem 0">
+    {% endif %}
+    {% if post.categories %}
+    <p class="card__meta">
+        {% for c in post.categories %}<span class="badge">{{ c.name }}</span>{% endfor %}
+    </p>
+    {% endif %}
+    <div class="prose">{{ post.content | safe }}</div>
+
+    {% block comments %}{% endblock %}
+
+    <p style="margin-top:2rem"><a href="{{ url_for('post.index') }}">← {{ _('Back to blog') }}</a></p>
+</article>
+{% endblock %}

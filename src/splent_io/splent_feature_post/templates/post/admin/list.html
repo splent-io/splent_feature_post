@@ -1,0 +1,62 @@
+{% extends "base_template.html" %}
+
+{% block title %}{{ _('Posts') }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-0">{{ _('Posts') }}</h1>
+        <p class="text-muted mb-0">{{ _('Manage blog posts and their status.') }}</p>
+    </div>
+    <a href="{{ url_for('post.admin_new') }}" class="btn btn-primary">{{ _('+ New post') }}</a>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} py-2">{{ message }}</div>
+    {% endfor %}
+{% endwith %}
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>{{ _('Title') }}</th>
+                    <th style="width:140px">{{ _('Date') }}</th>
+                    <th style="width:120px">{{ _('Status') }}</th>
+                    <th style="width:160px" class="text-end">{{ _('Actions') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in posts %}
+                <tr>
+                    <td>
+                        <strong>{{ p.title }}</strong>
+                        <div class="text-muted small">{{ p.slug }}</div>
+                    </td>
+                    <td>{{ p.date.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        {% if p.status == 'published' %}
+                        <span class="badge bg-success">{{ _('Published') }}</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ _('Draft') }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('post.admin_edit', post_id=p.id) }}" class="btn btn-sm btn-outline-primary">{{ _('Edit') }}</a>
+                        <form method="POST" action="{{ url_for('post.admin_delete', post_id=p.id) }}" class="d-inline" onsubmit="return confirm('{{ _('Remove this post?') }}')">
+                            <button class="btn btn-sm btn-outline-danger" type="submit" title="{{ _('Remove') }}">✕</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-muted text-center py-4">{{ _('No posts yet.') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

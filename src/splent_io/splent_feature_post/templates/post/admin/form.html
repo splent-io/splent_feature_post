@@ -1,0 +1,89 @@
+{% extends "base_template.html" %}
+
+{% block title %}{{ _('Edit post') if post else _('New post') }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">{{ _('Edit post') if post else _('New post') }}</h1>
+    <a href="{{ url_for('post.admin_index') }}" class="btn btn-outline-secondary">{{ _('← Back to posts') }}</a>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} py-2">{{ message }}</div>
+    {% endfor %}
+{% endwith %}
+
+<form method="POST" class="card">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label">{{ _('Title') }} *</label>
+                <input name="title" class="form-control" required value="{{ post.title if post else '' }}">
+            </div>
+            <div class="col-12">
+                <label class="form-label">{{ _('Excerpt') }}</label>
+                <textarea name="excerpt" class="form-control" rows="3">{{ post.excerpt if post else '' }}</textarea>
+            </div>
+            <div class="col-12">
+                <label class="form-label">{{ _('Content') }}</label>
+                <textarea name="content" id="post-content" class="form-control">{{ post.content if post else '' }}</textarea>
+            </div>
+            <div class="col-12">
+                <label class="form-label">{{ _('Featured image') }}</label>
+                <input name="featured_image" class="form-control" value="{{ post.featured_image if post else '' }}" placeholder="/static/uploads/...">
+                <div class="form-text">{{ _('Path (e.g. /static/uploads/...) or URL. The media library is at') }} <a href="/admin/media">/admin/media</a>.</div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">{{ _('Published at') }}</label>
+                <input name="published_at" type="datetime-local" class="form-control" value="{{ post.published_at.strftime('%Y-%m-%dT%H:%M') if post and post.published_at else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">{{ _('Status') }}</label>
+                <select name="status" class="form-select">
+                    <option value="published" {{ 'selected' if post and post.status == 'published' else '' }}>{{ _('Published') }}</option>
+                    <option value="draft" {{ 'selected' if post and post.status == 'draft' else '' }}>{{ _('Draft') }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">{{ _('Comments') }}</label>
+                <select name="comment_status" class="form-select">
+                    <option value="open" {{ 'selected' if post and post.comment_status == 'open' else '' }}>{{ _('Open') }}</option>
+                    <option value="closed" {{ 'selected' if post and post.comment_status == 'closed' else '' }}>{{ _('Closed') }}</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label class="form-label">{{ _('Categories') }}</label>
+                <div class="row g-2">
+                    {% for c in categories %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="categories" value="{{ c.id }}" id="category-{{ c.id }}" {% if post and c in post.categories %}checked{% endif %}>
+                            <label class="form-check-label" for="category-{{ c.id }}">{{ c.name }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if not categories %}<div class="form-text">{{ _('No categories yet.') }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-end">
+        <a href="{{ url_for('post.admin_index') }}" class="btn btn-link text-muted">{{ _('Cancel') }}</a>
+        <button class="btn btn-primary" type="submit">{{ _('Save changes') if post else _('Create post') }}</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+tinymce.init({
+    selector: '#post-content',
+    height: 500,
+    menubar: true,
+    plugins: 'lists link image code table',
+    toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image | code'
+});
+</script>
+{% endblock %}

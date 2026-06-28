@@ -1,0 +1,30 @@
+{% extends "public_base.html" %}
+
+{% block title %}{{ _('Blog') }} — {{ SPLENT_APP }}{% endblock %}
+
+{% block hero %}
+    {{ render_block('hero', eyebrow=_('Blog'), title=_('Blog'),
+                    subtitle=_('News and updates.')) }}
+{% endblock %}
+
+{% block content %}
+<div class="container section">
+    <div class="card-grid">
+        {% for p in posts %}
+        <a class="card" href="{{ post_url(p) }}">
+            {% if p.featured_image %}<img class="card__img" src="{{ p.featured_image }}" alt="">{% endif %}
+            <h3 class="card__title">{{ p.title }}</h3>
+            <p class="card__meta">{{ p.date.strftime('%d %b %Y') }}</p>
+            {% if p.excerpt %}<div class="card__text">{{ p.excerpt | safe }}</div>{% endif %}
+            {% if p.categories %}
+            <p class="card__meta">
+                {% for c in p.categories %}<span class="badge">{{ c.name }}</span>{% endfor %}
+            </p>
+            {% endif %}
+        </a>
+        {% else %}
+        <p class="card__text">{{ _('No posts yet.') }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
