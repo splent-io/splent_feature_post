@@ -25,8 +25,11 @@ cli_version = "1.11.0"
 
 # ── Feature Contract (auto-generated) ────────────────────────────────────────
 # Do not edit manually — re-run `splent feature:contract --write` to refresh.
+# Preserved across refreshes: description, category, tags, env, and
+# requires.features_manual (dependencies invisible to static analysis).
 [tool.splent.contract]
-description = "post feature"
+description = "Blog posts with categories (public list/detail + admin CRUD)"
+archetype = "full"
 
 [tool.splent.contract.provides]
 routes     = ["/admin/posts", "/admin/posts/<int:post_id>/delete", "/admin/posts/<int:post_id>/edit", "/admin/posts/new", "/blog"]
@@ -41,6 +44,7 @@ docker     = []
 
 [tool.splent.contract.requires]
 features = []
+features_optional = ["media"]
 env_vars = ["POST_PERMALINK"]
 signals  = []
 
