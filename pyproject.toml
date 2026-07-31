@@ -54,3 +54,10 @@ templates = ["post/admin/form.html", "post/admin/list.html", "post/detail.html",
 models    = ["Category", "Post"]
 hooks     = ["home.section", "layout.authenticated_sidebar", "post.comments"]
 routes    = false
+
+# ── Configuration ─────────────────────────────────────────────────────────
+[tool.splent.config]
+# The shape of a post URL. Dates come from the publication moment and
+# %postname% from the slug. It is read for years after it is written, so a
+# site replacing an older one sets this to whatever that one served.
+POST_PERMALINK = "/%Y/%m/%d/%postname%"
