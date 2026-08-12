@@ -5,9 +5,18 @@ Functional tests use Flask's test client to exercise full HTTP
 request/response cycles (GET, POST, redirects, rendered HTML).
 """
 
+import os
 from datetime import datetime, timedelta
 
+from flask import url_for
+
 from splent_framework.db import db
+from splent_framework.nav.nav_registry import (
+    clear_nav_items,
+    get_nav_items,
+    register_nav_item,
+)
+from splent_framework.utils.app_loader import get_create_app_in_testing_mode
 from splent_io.splent_feature_post.models import Category, Post
 
 
@@ -134,3 +143,41 @@ def test_category_archive_unknown_slug_is_404(test_client):
     """An unknown category slug returns 404."""
     response = test_client.get("/blog/category/does-not-exist")
     assert response.status_code == 404
+
+
+def test_index_path_defaults_to_blog(test_app):
+    """Without POST_INDEX_PATH the index and archive endpoints stay at /blog."""
+    with test_app.test_request_context():
+        assert url_for("post.index") == "/blog"
+        assert url_for("post.category", slug="research") == "/blog/category/research"
+
+
+def test_index_path_is_configurable(test_app):
+    """POST_INDEX_PATH=/news moves the public index, archive and nav to /news.
+
+    The session-scoped app fixture cannot change config after registration
+    (routes are added at init_feature time), so a second app is built with the
+    env var set, the way a product would configure it. Building it rebuilds the
+    process-global nav registry, so that registry is snapshotted and restored
+    for the session app afterwards.
+    """
+    nav_snapshot = get_nav_items()
+    os.environ["POST_INDEX_PATH"] = "/news"
+    try:
+        news_app = get_create_app_in_testing_mode()
+        rules = {rule.rule for rule in news_app.url_map.iter_rules()}
+        assert "/news" in rules
+        assert "/news/category/<slug>" in rules
+        assert "/blog" not in rules
+        with news_app.test_request_context():
+            assert url_for("post.index") == "/news"
+            assert (
+                url_for("post.category", slug="research") == "/news/category/research"
+            )
+        nav = {item["key"]: item for item in get_nav_items()}
+        assert nav["post"]["href"] == "/news"
+    finally:
+        del os.environ["POST_INDEX_PATH"]
+        clear_nav_items()
+        for item in nav_snapshot:
+            register_nav_item(**item)

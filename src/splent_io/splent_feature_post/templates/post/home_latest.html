@@ -1,7 +1,7 @@
 <section class="container section home-latest">
     <div class="home-latest__head">
         <h2 class="home-latest__title">{{ _('Latest posts') }}</h2>
-        <a class="home-latest__all" href="/blog">{{ _('View all') }}</a>
+        <a class="home-latest__all" href="{{ url_for('post.index') }}">{{ _('View all') }}</a>
     </div>
     <div class="card-grid">
         {% for p in posts %}

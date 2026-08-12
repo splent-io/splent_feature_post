@@ -13,14 +13,14 @@ post_service = service_proxy("PostService")
 
 
 # =====================================================================
-# PUBLIC — the blog index and category archives. (Post detail is served
-# by the configurable permalink route registered in __init__.py.)
+# PUBLIC — the blog index and category archives. Both are registered
+# dynamically in __init__.py from the configurable POST_INDEX_PATH
+# (default /blog), like the permalink route that serves post detail.
 # =====================================================================
 def _page_size():
     return current_app.config.get("POST_PAGE_SIZE", 10)
 
 
-@post_bp.route("/blog", methods=["GET"])
 def index():
     page = request.args.get("page", 1, type=int)
     posts = post_service.published_page(page, _page_size())
@@ -34,7 +34,6 @@ def index():
     )
 
 
-@post_bp.route("/blog/category/<slug>", methods=["GET"])
 def category(slug):
     cat = post_service.get_category_by_slug(slug)
     if cat is None:

@@ -13,6 +13,17 @@ post_bp = create_blueprint(__name__)
 # links keep working (SEO).
 DEFAULT_PERMALINK = "/%Y/%m/%d/%postname%"
 
+# Public index path of the blog. Configurable per product via
+# app.config['POST_INDEX_PATH'] so the URL can match the nav label
+# (a product calling the entry "News" wants /news).
+DEFAULT_INDEX_PATH = "/blog"
+
+
+def _index_path(app) -> str:
+    """Normalized configured index path (leading slash, no trailing slash)."""
+    path = app.config.get("POST_INDEX_PATH", DEFAULT_INDEX_PATH)
+    return "/" + path.strip("/")
+
 
 def _permalink_to_rule(structure: str) -> str:
     """Turn a permalink structure into a Flask URL rule.
@@ -52,11 +63,14 @@ def init_feature(app):
 
     register_service(app, "PostService", PostService)
 
-    # Label is a product decision (POST_NAV_LABEL); the URL stays /blog.
+    index_path = _index_path(app)
+
+    # Label and URL are product decisions (POST_NAV_LABEL / POST_INDEX_PATH),
+    # so the nav entry points at the configured index path.
     register_nav_item(
         key="post",
         label=app.config.get("POST_NAV_LABEL", "Blog"),
-        href="/blog",
+        href=index_path,
         order=50,
     )
 
@@ -79,6 +93,21 @@ def init_feature(app):
         )
 
     app.add_url_rule(rule, endpoint="post_permalink", view_func=_post_permalink)
+
+    # Register the public index and category archive from the configurable
+    # index path. Endpoint names stay "post.index" / "post.category" so every
+    # existing url_for() call (templates, pagination) keeps working.
+    from splent_io.splent_feature_post.routes import category, index
+
+    app.add_url_rule(
+        index_path, endpoint="post.index", view_func=index, methods=["GET"]
+    )
+    app.add_url_rule(
+        index_path + "/category/<slug>",
+        endpoint="post.category",
+        view_func=category,
+        methods=["GET"],
+    )
 
 
 def inject_context_vars(app):

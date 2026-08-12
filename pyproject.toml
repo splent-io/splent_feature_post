@@ -34,7 +34,8 @@ description = "Blog posts with categories (public list/detail + admin CRUD)"
 archetype = "full"
 
 [tool.splent.contract.provides]
-routes     = ["/admin/posts", "/admin/posts/<int:post_id>/delete", "/admin/posts/<int:post_id>/edit", "/admin/posts/new", "/blog", "/blog/category/<slug>"]
+routes     = ["/admin/posts", "/admin/posts/<int:post_id>/delete", "/admin/posts/<int:post_id>/edit", "/admin/posts/new"]
+routes_manual = ["/blog", "/blog/category/<slug>"]
 blueprints = []
 models     = ["Category", "Post"]
 commands   = ["hello"]
@@ -47,7 +48,7 @@ docker     = []
 [tool.splent.contract.requires]
 features = []
 features_optional = ["media"]
-env_vars = ["POST_NAV_LABEL", "POST_PAGE_SIZE", "POST_PERMALINK"]
+env_vars = ["POST_INDEX_PATH", "POST_NAV_LABEL", "POST_PAGE_SIZE", "POST_PERMALINK"]
 signals  = []
 
 [tool.splent.contract.extensible]
@@ -64,9 +65,14 @@ routes    = false
 # site replacing an older one sets this to whatever that one served.
 POST_PERMALINK = "/%Y/%m/%d/%postname%"
 
+# Path of the public blog index. Category archives hang from it
+# (<path>/category/<slug>). A product whose nav calls the entry "News"
+# sets this to /news so the URL matches the label.
+POST_INDEX_PATH = "/blog"
+
 # Posts per page on the public blog index and category archives.
 POST_PAGE_SIZE = 10
 
-# Label of the feature's entry in the public main navigation. The URL stays
-# /blog either way; a product may prefer "News" or a translated word.
+# Label of the feature's entry in the public main navigation. A product may
+# prefer "News" or a translated word; pair it with POST_INDEX_PATH.
 POST_NAV_LABEL = "Blog"
