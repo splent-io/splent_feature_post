@@ -111,6 +111,57 @@
     }
 }
 
+/* Blog index cards. The card is an <article> (not one big <a>) so the
+ * category badges can be real links; the title/image link keeps the main
+ * click target and inherits the card's text colour. */
+.card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.card__link:hover {
+    text-decoration: none;
+}
+
+.card__link:hover .card__title {
+    color: var(--brand-primary);
+}
+
+a.badge:hover {
+    text-decoration: none;
+    background: color-mix(in srgb, var(--brand-primary) 22%, transparent);
+}
+
+/* Pager at the bottom of the blog index and category archives. */
+.pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.pager__link {
+    font-weight: 600;
+    color: var(--brand-primary);
+    text-decoration: none;
+}
+
+.pager__link:hover {
+    text-decoration: underline;
+}
+
+.pager__link--disabled {
+    color: var(--brand-muted);
+    pointer-events: none;
+}
+
+.pager__status {
+    font-size: 0.9rem;
+    color: var(--brand-muted);
+}
+
 /* Home "Latest posts" section (home.section hook). Reuses the shell's
  * .card-grid/.card primitives for the cards; only the section header is
  * styled here. Token-driven so it inherits each product's skin. */

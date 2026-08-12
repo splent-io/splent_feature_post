@@ -15,7 +15,7 @@
         {% endif %}
         {% if post.categories %}
         <p class="card__meta">
-            {% for c in post.categories %}<span class="badge">{{ c.name }}</span>{% endfor %}
+            {% for c in post.categories %}<a class="badge" href="{{ url_for('post.category', slug=c.slug) }}">{{ c.name }}</a>{% endfor %}
         </p>
         {% endif %}
         <div class="prose">{{ post.content | safe }}</div>

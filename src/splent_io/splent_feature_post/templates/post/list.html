@@ -1,30 +1,55 @@
 {% extends "public_base.html" %}
 
-{% block title %}{{ _('Blog') }} — {{ SPLENT_APP }}{% endblock %}
+{% block title %}{{ category.name if category else _('Blog') }} — {{ SPLENT_APP }}{% endblock %}
 
 {% block hero %}
-    {{ render_block('hero', eyebrow=_('Blog'), title=_('Blog'),
-                    subtitle=_('News and updates.')) }}
+    {% if category %}
+        {{ render_block('hero', eyebrow=_('Blog'), title=category.name,
+                        subtitle=_('Posts in this category.')) }}
+    {% else %}
+        {{ render_block('hero', eyebrow=_('Blog'), title=_('Blog'),
+                        subtitle=_('News and updates.')) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="container section">
     <div class="card-grid">
         {% for p in posts %}
-        <a class="card" href="{{ post_url(p) }}">
-            {% if p.featured_image %}<img class="card__img" src="{{ p.featured_image }}" alt="">{% endif %}
-            <h3 class="card__title">{{ p.title }}</h3>
+        {# <article>, not one big <a> — the category badges are links of their
+           own and anchors cannot nest. The title/image keep the main link. #}
+        <article class="card">
+            <a class="card__link" href="{{ post_url(p) }}">
+                {% if p.featured_image %}<img class="card__img" src="{{ p.featured_image }}" alt="">{% endif %}
+                <h3 class="card__title">{{ p.title }}</h3>
+            </a>
             <p class="card__meta">{{ p.date.strftime('%d %b %Y') }}</p>
             {% if p.excerpt %}<div class="card__text">{{ p.excerpt | safe }}</div>{% endif %}
             {% if p.categories %}
             <p class="card__meta">
-                {% for c in p.categories %}<span class="badge">{{ c.name }}</span>{% endfor %}
+                {% for c in p.categories %}<a class="badge" href="{{ url_for('post.category', slug=c.slug) }}">{{ c.name }}</a>{% endfor %}
             </p>
             {% endif %}
-        </a>
+        </article>
         {% else %}
         <p class="card__text">{{ _('No posts yet.') }}</p>
         {% endfor %}
     </div>
+
+    {% if total_pages and total_pages > 1 %}
+    <nav class="pager" aria-label="{{ _('Blog pages') }}">
+        {% if prev_url %}
+        <a class="pager__link" href="{{ prev_url }}" rel="prev">{{ _('Newer posts') }}</a>
+        {% else %}
+        <span class="pager__link pager__link--disabled" aria-disabled="true">{{ _('Newer posts') }}</span>
+        {% endif %}
+        <span class="pager__status">{{ _('Page %(page)s of %(total)s', page=page, total=total_pages) }}</span>
+        {% if next_url %}
+        <a class="pager__link" href="{{ next_url }}" rel="next">{{ _('Older posts') }}</a>
+        {% else %}
+        <span class="pager__link pager__link--disabled" aria-disabled="true">{{ _('Older posts') }}</span>
+        {% endif %}
+    </nav>
+    {% endif %}
 </div>
 {% endblock %}

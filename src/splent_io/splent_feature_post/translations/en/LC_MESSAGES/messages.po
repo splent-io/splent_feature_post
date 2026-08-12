@@ -153,6 +153,28 @@ msgstr ""
 msgid "Related posts"
 msgstr ""
 
-#: src/splent_io/splent_feature_post/templates/post/list.html:7
+#: src/splent_io/splent_feature_post/templates/post/list.html:11
 msgid "News and updates."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:8
+msgid "Posts in this category."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:41
+msgid "Blog pages"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:43
+#: src/splent_io/splent_feature_post/templates/post/list.html:45
+msgid "Newer posts"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:47
+msgid "Page %(page)s of %(total)s"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:49
+#: src/splent_io/splent_feature_post/templates/post/list.html:51
+msgid "Older posts"
 msgstr ""

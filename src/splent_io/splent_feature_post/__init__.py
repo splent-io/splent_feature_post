@@ -52,7 +52,13 @@ def init_feature(app):
 
     register_service(app, "PostService", PostService)
 
-    register_nav_item(key="post", label="Blog", href="/blog", order=50)
+    # Label is a product decision (POST_NAV_LABEL); the URL stays /blog.
+    register_nav_item(
+        key="post",
+        label=app.config.get("POST_NAV_LABEL", "Blog"),
+        href="/blog",
+        order=50,
+    )
 
     # Public blog styles (detail two-column layout + related sidebar). Shipped
     # via the asset registry, not hand-written <link>/<style> tags.

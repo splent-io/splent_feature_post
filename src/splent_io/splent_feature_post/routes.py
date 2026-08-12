@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from flask import flash, redirect, render_template, request, url_for
+from flask import abort, current_app, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 
 from splent_io.splent_feature_post import post_bp
@@ -13,12 +13,51 @@ post_service = service_proxy("PostService")
 
 
 # =====================================================================
-# PUBLIC — the blog index. (Post detail is served by the configurable
-# permalink route registered in __init__.py.)
+# PUBLIC — the blog index and category archives. (Post detail is served
+# by the configurable permalink route registered in __init__.py.)
 # =====================================================================
+def _page_size():
+    return current_app.config.get("POST_PAGE_SIZE", 10)
+
+
 @post_bp.route("/blog", methods=["GET"])
 def index():
-    return render_template("post/list.html", posts=post_service.published())
+    page = request.args.get("page", 1, type=int)
+    posts = post_service.published_page(page, _page_size())
+    return render_template(
+        "post/list.html",
+        posts=posts.items,
+        page=posts.page,
+        total_pages=posts.pages,
+        prev_url=url_for("post.index", page=posts.prev_num) if posts.has_prev else None,
+        next_url=url_for("post.index", page=posts.next_num) if posts.has_next else None,
+    )
+
+
+@post_bp.route("/blog/category/<slug>", methods=["GET"])
+def category(slug):
+    cat = post_service.get_category_by_slug(slug)
+    if cat is None:
+        abort(404)
+    page = request.args.get("page", 1, type=int)
+    posts = post_service.published_page_by_category(cat, page, _page_size())
+    return render_template(
+        "post/list.html",
+        posts=posts.items,
+        category=cat,
+        page=posts.page,
+        total_pages=posts.pages,
+        prev_url=(
+            url_for("post.category", slug=slug, page=posts.prev_num)
+            if posts.has_prev
+            else None
+        ),
+        next_url=(
+            url_for("post.category", slug=slug, page=posts.next_num)
+            if posts.has_next
+            else None
+        ),
+    )
 
 
 # =====================================================================

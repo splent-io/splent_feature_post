@@ -17,8 +17,34 @@ class PostService(BaseService):
             .all()
         )
 
+    def published_page(self, page, per_page):
+        """One page of published posts (newest first) as a Pagination object.
+
+        error_out=False so an out-of-range page renders the empty state
+        instead of a 404.
+        """
+        return (
+            Post.query.filter_by(status="published")
+            .order_by(Post.published_at.desc())
+            .paginate(page=page, per_page=per_page, error_out=False)
+        )
+
+    def published_page_by_category(self, category, page, per_page):
+        """One page of published posts in ``category`` (newest first)."""
+        return (
+            Post.query.filter(
+                Post.status == "published",
+                Post.categories.any(Category.id == category.id),
+            )
+            .order_by(Post.published_at.desc())
+            .paginate(page=page, per_page=per_page, error_out=False)
+        )
+
     def categories(self):
         return Category.query.order_by(Category.name.asc()).all()
+
+    def get_category_by_slug(self, slug):
+        return Category.query.filter_by(slug=slug).first()
 
     def related(self, post, limit=5):
         """Other published posts to surface alongside ``post``.

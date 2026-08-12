@@ -153,9 +153,31 @@ msgstr "Volver al blog"
 msgid "Related posts"
 msgstr "Otras entradas relacionadas"
 
-#: src/splent_io/splent_feature_post/templates/post/list.html:7
+#: src/splent_io/splent_feature_post/templates/post/list.html:11
 msgid "News and updates."
 msgstr "Noticias y novedades."
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:8
+msgid "Posts in this category."
+msgstr "Entradas de esta categoría."
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:41
+msgid "Blog pages"
+msgstr "Páginas del blog"
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:43
+#: src/splent_io/splent_feature_post/templates/post/list.html:45
+msgid "Newer posts"
+msgstr "Entradas más recientes"
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:47
+msgid "Page %(page)s of %(total)s"
+msgstr "Página %(page)s de %(total)s"
+
+#: src/splent_io/splent_feature_post/templates/post/list.html:49
+#: src/splent_io/splent_feature_post/templates/post/list.html:51
+msgid "Older posts"
+msgstr "Entradas más antiguas"
 
 #: src/splent_io/splent_feature_post/templates/post/home_latest.html:3
 msgid "Latest posts"
