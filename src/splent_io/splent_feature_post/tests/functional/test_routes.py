@@ -97,7 +97,11 @@ def test_category_archive_filters_by_category(test_client):
             )
         )
         db.session.add(
-            Post(title="Out of the category", slug="out-of-the-category", status="published")
+            Post(
+                title="Out of the category",
+                slug="out-of-the-category",
+                status="published",
+            )
         )
         db.session.commit()
 
