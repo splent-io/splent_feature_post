@@ -10,6 +10,13 @@ from datetime import datetime, timedelta
 
 from flask import url_for
 
+
+def _index_path(client):
+    """The configured public index path, however the product set it."""
+    with client.application.test_request_context():
+        return url_for("post.index")
+
+
 from splent_framework.db import db
 from splent_framework.nav.nav_registry import (
     clear_nav_items,
@@ -48,7 +55,7 @@ def _create_published_posts(app, count, category_slug=None):
 
 def test_index_is_reachable(test_client):
     """Verify the public blog index exists and renders."""
-    response = test_client.get("/blog")
+    response = test_client.get(_index_path(test_client))
     assert response.status_code == 200
 
 
@@ -58,14 +65,14 @@ def test_index_first_page_holds_page_size_posts(test_client):
     page_size = app.config["POST_PAGE_SIZE"]
     _create_published_posts(app, page_size + 1)
 
-    response = test_client.get("/blog")
+    response = test_client.get(_index_path(test_client))
     assert response.status_code == 200
     html = response.data.decode()
     # Newest first, so the extra (oldest) post is pushed off page 1.
     assert f"Pagination post {page_size:02d}" in html
     assert "Pagination post 00" not in html
     # The pager is rendered and points at page 2.
-    assert "/blog?page=2" in html
+    assert f"{_index_path(test_client)}?page=2" in html
 
 
 def test_index_second_page_holds_the_overflow(test_client):
@@ -74,7 +81,7 @@ def test_index_second_page_holds_the_overflow(test_client):
     page_size = app.config["POST_PAGE_SIZE"]
     _create_published_posts(app, page_size + 1)
 
-    response = test_client.get("/blog?page=2")
+    response = test_client.get(_index_path(test_client) + "?page=2")
     assert response.status_code == 200
     html = response.data.decode()
     assert "Pagination post 00" in html
@@ -86,9 +93,9 @@ def test_index_hides_pager_when_everything_fits(test_client):
     app = test_client.application
     _create_published_posts(app, 1)
 
-    response = test_client.get("/blog")
+    response = test_client.get(_index_path(test_client))
     assert response.status_code == 200
-    assert "/blog?page=2" not in response.data.decode()
+    assert f"{_index_path(test_client)}?page=2" not in response.data.decode()
 
 
 def test_category_archive_filters_by_category(test_client):
@@ -114,7 +121,7 @@ def test_category_archive_filters_by_category(test_client):
         )
         db.session.commit()
 
-    response = test_client.get("/blog/category/research")
+    response = test_client.get(_index_path(test_client) + "/category/research")
     assert response.status_code == 200
     html = response.data.decode()
     # Category name is the page heading.
@@ -132,7 +139,7 @@ def test_category_archive_paginates(test_client):
         db.session.commit()
     _create_published_posts(app, page_size + 1, category_slug="news")
 
-    response = test_client.get("/blog/category/news?page=2")
+    response = test_client.get(_index_path(test_client) + "/category/news?page=2")
     assert response.status_code == 200
     html = response.data.decode()
     assert "Pagination post 00" in html
@@ -141,15 +148,35 @@ def test_category_archive_paginates(test_client):
 
 def test_category_archive_unknown_slug_is_404(test_client):
     """An unknown category slug returns 404."""
-    response = test_client.get("/blog/category/does-not-exist")
+    response = test_client.get(_index_path(test_client) + "/category/does-not-exist")
     assert response.status_code == 404
 
 
 def test_index_path_defaults_to_blog(test_app):
-    """Without POST_INDEX_PATH the index and archive endpoints stay at /blog."""
-    with test_app.test_request_context():
-        assert url_for("post.index") == "/blog"
-        assert url_for("post.category", slug="research") == "/blog/category/research"
+    """Without POST_INDEX_PATH the index and archive endpoints stay at /blog.
+
+    The active product may configure another path, so a fresh app is built
+    with the variable explicitly empty, the same second-app technique the
+    configurability test below documents.
+    """
+    nav_snapshot = get_nav_items()
+    previous = os.environ.get("POST_INDEX_PATH")
+    os.environ["POST_INDEX_PATH"] = ""
+    try:
+        default_app = get_create_app_in_testing_mode()
+        with default_app.test_request_context():
+            assert url_for("post.index") == "/blog"
+            assert (
+                url_for("post.category", slug="research") == "/blog/category/research"
+            )
+    finally:
+        if previous is None:
+            del os.environ["POST_INDEX_PATH"]
+        else:
+            os.environ["POST_INDEX_PATH"] = previous
+        clear_nav_items()
+        for item in nav_snapshot:
+            register_nav_item(**item)
 
 
 def test_index_path_is_configurable(test_app):
