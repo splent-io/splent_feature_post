@@ -118,8 +118,13 @@ def init_feature(app):
 
 
 def inject_context_vars(app):
-    # Expose the permalink builder so templates can do {{ post_url(post) }}.
+    # Expose the permalink builder so templates can do {{ post_url(post) }},
+    # and the section's product-chosen name so no template says "Blog" to a
+    # reader whose site calls it "News".
     def post_url(post):
         return build_permalink(app, post)
 
-    return {"post_url": post_url}
+    return {
+        "post_url": post_url,
+        "post_section_label": app.config.get("POST_NAV_LABEL", "") or "Blog",
+    }

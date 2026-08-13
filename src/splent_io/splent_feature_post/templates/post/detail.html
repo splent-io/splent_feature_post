@@ -9,7 +9,7 @@
         <a href="{{ url_for('post.admin_edit', post_id=post.id) }}">{{ _('Back to editing') }}</a>
     </div>
     {% endif %}
-    {{ render_block('hero', eyebrow=_('Blog'), title=post.title,
+    {{ render_block('hero', eyebrow=post_section_label, title=post.title,
                     subtitle=post.date.strftime('%d %b %Y')) }}
 {% endblock %}
 
@@ -28,7 +28,7 @@
 
         {% for hook in get_template_hooks("post.comments") %}{{ hook(post) | safe }}{% endfor %}
 
-        <p style="margin-top:2rem"><a href="{{ url_for('post.index') }}">← {{ _('Back to blog') }}</a></p>
+        <p style="margin-top:2rem"><a href="{{ url_for('post.index') }}">← {{ post_section_label }}</a></p>
     </article>
 
     {% if related %}

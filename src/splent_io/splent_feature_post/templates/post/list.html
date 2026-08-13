@@ -1,13 +1,13 @@
 {% extends "public_base.html" %}
 
-{% block title %}{{ category.name if category else _('Blog') }} — {{ SPLENT_APP }}{% endblock %}
+{% block title %}{{ category.name if category else post_section_label }} — {{ SPLENT_APP }}{% endblock %}
 
 {% block hero %}
     {% if category %}
-        {{ render_block('hero', eyebrow=_('Blog'), title=category.name,
+        {{ render_block('hero', eyebrow=post_section_label, title=category.name,
                         subtitle=_('Posts in this category.')) }}
     {% else %}
-        {{ render_block('hero', eyebrow=_('Blog'), title=_('Blog'),
+        {{ render_block('hero', eyebrow=post_section_label, title=post_section_label,
                         subtitle=_('News and updates.')) }}
     {% endif %}
 {% endblock %}
@@ -37,7 +37,7 @@
     </div>
 
     {% if total_pages and total_pages > 1 %}
-    <nav class="pager" aria-label="{{ _('Blog pages') }}">
+    <nav class="pager" aria-label="{{ post_section_label }}">
         {% if prev_url %}
         <a class="pager__link" href="{{ prev_url }}" rel="prev">{{ _('Newer posts') }}</a>
         {% else %}
