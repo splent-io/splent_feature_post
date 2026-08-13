@@ -10,13 +10,6 @@ from datetime import datetime, timedelta
 
 from flask import url_for
 
-
-def _index_path(client):
-    """The configured public index path, however the product set it."""
-    with client.application.test_request_context():
-        return url_for("post.index")
-
-
 from splent_framework.db import db
 from splent_framework.nav.nav_registry import (
     clear_nav_items,
@@ -25,6 +18,12 @@ from splent_framework.nav.nav_registry import (
 )
 from splent_framework.utils.app_loader import get_create_app_in_testing_mode
 from splent_io.splent_feature_post.models import Category, Post
+
+
+def _index_path(client):
+    """The configured public index path, however the product set it."""
+    with client.application.test_request_context():
+        return url_for("post.index")
 
 
 def _create_published_posts(app, count, category_slug=None):
@@ -152,31 +151,23 @@ def test_category_archive_unknown_slug_is_404(test_client):
     assert response.status_code == 404
 
 
-def test_index_path_defaults_to_blog(test_app):
-    """Without POST_INDEX_PATH the index and archive endpoints stay at /blog.
+def test_index_path_defaults_to_blog():
+    """An empty or missing POST_INDEX_PATH normalizes to /blog.
 
-    The active product may configure another path, so a fresh app is built
-    with the variable explicitly empty, the same second-app technique the
-    configurability test below documents.
+    Exercised on the normalizer directly: a rebuilt app would reload the
+    product env (override=True), so whatever the active product configures
+    would always win over a test-set environment variable.
     """
-    nav_snapshot = get_nav_items()
-    previous = os.environ.get("POST_INDEX_PATH")
-    os.environ["POST_INDEX_PATH"] = ""
-    try:
-        default_app = get_create_app_in_testing_mode()
-        with default_app.test_request_context():
-            assert url_for("post.index") == "/blog"
-            assert (
-                url_for("post.category", slug="research") == "/blog/category/research"
-            )
-    finally:
-        if previous is None:
-            del os.environ["POST_INDEX_PATH"]
-        else:
-            os.environ["POST_INDEX_PATH"] = previous
-        clear_nav_items()
-        for item in nav_snapshot:
-            register_nav_item(**item)
+    from splent_io.splent_feature_post import DEFAULT_INDEX_PATH, _index_path as norm
+
+    class _FakeApp:
+        def __init__(self, value):
+            self.config = {"POST_INDEX_PATH": value}
+
+    assert DEFAULT_INDEX_PATH == "/blog"
+    assert norm(_FakeApp("")) == "/blog"
+    assert norm(_FakeApp("/news")) == "/news"
+    assert norm(_FakeApp("news/")) == "/news"
 
 
 def test_index_path_is_configurable(test_app):

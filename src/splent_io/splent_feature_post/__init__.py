@@ -20,8 +20,12 @@ DEFAULT_INDEX_PATH = "/blog"
 
 
 def _index_path(app) -> str:
-    """Normalized configured index path (leading slash, no trailing slash)."""
-    path = app.config.get("POST_INDEX_PATH", DEFAULT_INDEX_PATH)
+    """Normalized configured index path (leading slash, no trailing slash).
+
+    An empty value falls back to the default rather than "/", which would
+    silently register the blog on the site root over the homepage.
+    """
+    path = app.config.get("POST_INDEX_PATH", "") or DEFAULT_INDEX_PATH
     return "/" + path.strip("/")
 
 
