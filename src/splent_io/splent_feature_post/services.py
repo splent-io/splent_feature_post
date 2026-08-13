@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from splent_io.splent_feature_post.models import Category, Post
 from splent_io.splent_feature_post.repositories import PostRepository
 from splent_framework.services.BaseService import BaseService
@@ -10,32 +12,47 @@ class PostService(BaseService):
     def get_by_slug(self, slug):
         return Post.query.filter_by(slug=slug).first()
 
-    def published(self):
-        return (
-            Post.query.filter_by(status="published")
-            .order_by(Post.published_at.desc())
-            .all()
+    def _public_query(self):
+        """Posts visible to the public right now, WordPress semantics.
+
+        Published AND published_at <= now. A published post dated in the
+        future is scheduled; the comparison IS the scheduler, so no cron is
+        needed. Every public listing and the permalink go through this.
+        """
+        return Post.query.filter(
+            Post.status == "published",
+            Post.published_at <= datetime.utcnow(),
         )
 
+    def is_public(self, post):
+        """Whether ``post`` may be served on its public permalink now."""
+        return (
+            post is not None
+            and post.status == "published"
+            and post.published_at is not None
+            and post.published_at <= datetime.utcnow()
+        )
+
+    def published(self):
+        return self._public_query().order_by(Post.published_at.desc()).all()
+
     def published_page(self, page, per_page):
-        """One page of published posts (newest first) as a Pagination object.
+        """One page of publicly visible posts (newest first) as a Pagination.
 
         error_out=False so an out-of-range page renders the empty state
         instead of a 404.
         """
         return (
-            Post.query.filter_by(status="published")
+            self._public_query()
             .order_by(Post.published_at.desc())
             .paginate(page=page, per_page=per_page, error_out=False)
         )
 
     def published_page_by_category(self, category, page, per_page):
-        """One page of published posts in ``category`` (newest first)."""
+        """One page of publicly visible posts in ``category`` (newest first)."""
         return (
-            Post.query.filter(
-                Post.status == "published",
-                Post.categories.any(Category.id == category.id),
-            )
+            self._public_query()
+            .filter(Post.categories.any(Category.id == category.id))
             .order_by(Post.published_at.desc())
             .paginate(page=page, per_page=per_page, error_out=False)
         )
@@ -47,17 +64,17 @@ class PostService(BaseService):
         return Category.query.filter_by(slug=slug).first()
 
     def related(self, post, limit=5):
-        """Other published posts to surface alongside ``post``.
+        """Other publicly visible posts to surface alongside ``post``.
 
         Prefers posts that share at least one category with ``post`` (newest
-        first), then fills any remaining slots with the most recent published
+        first), then fills any remaining slots with the most recent public
         posts. The given post is always excluded and no post appears twice.
         Returns a list (possibly empty).
         """
         if post is None:
             return []
 
-        base = Post.query.filter(Post.status == "published", Post.id != post.id)
+        base = self._public_query().filter(Post.id != post.id)
 
         related = []
         seen = {post.id}

@@ -178,3 +178,83 @@ msgstr ""
 #: src/splent_io/splent_feature_post/templates/post/list.html:51
 msgid "Older posts"
 msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Link URL"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Text formatting"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Bold"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Italic"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Heading 2"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Heading 3"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Bulleted list"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Numbered list"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Blockquote"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Link"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Insert image"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Code block"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Undo"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Redo"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Edit HTML source"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Leave empty to publish now. A published post with a future date stays hidden until that time."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Save and preview"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html
+msgid "Scheduled"
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html
+msgid "This is a preview. Only logged in users can see this page."
+msgstr ""
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html
+msgid "Back to editing"
+msgstr ""

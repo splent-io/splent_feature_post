@@ -90,7 +90,10 @@ def init_feature(app):
     def _post_permalink(**kwargs):
         service = service_proxy("PostService")
         post = service.get_by_slug(kwargs.get("slug"))
-        if post is None or post.status != "published":
+        # Drafts and scheduled posts (published with a future date) answer
+        # 404 until their time, indistinguishable from a missing post.
+        # Admins check them through the login-only preview route instead.
+        if not service.is_public(post):
             abort(404)
         return render_template(
             "post/detail.html", post=post, related=service.related(post)

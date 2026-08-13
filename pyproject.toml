@@ -34,7 +34,7 @@ description = "Blog posts with categories (public list/detail + admin CRUD)"
 archetype = "full"
 
 [tool.splent.contract.provides]
-routes     = ["/admin/posts", "/admin/posts/<int:post_id>/delete", "/admin/posts/<int:post_id>/edit", "/admin/posts/new", "/blog", "/blog/category/<slug>"]
+routes     = ["/admin/posts", "/admin/posts/<int:post_id>/delete", "/admin/posts/<int:post_id>/edit", "/admin/posts/<int:post_id>/preview", "/admin/posts/new", "/blog", "/blog/category/<slug>"]
 routes_manual = ["/blog", "/blog/category/<slug>"]
 blueprints = []
 models     = ["Category", "Post"]

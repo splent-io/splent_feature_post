@@ -220,3 +220,25 @@ a.badge:hover {
         gap: 0.35rem;
     }
 }
+
+/* Admin preview bar. Rendered on top of the public detail template by the
+ * login-only preview route, so the screen cannot be mistaken for the live
+ * page. Deliberately loud and skin-independent. */
+.post-preview-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: #212529;
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.post-preview-bar a {
+    color: #fff;
+    text-decoration: underline;
+}

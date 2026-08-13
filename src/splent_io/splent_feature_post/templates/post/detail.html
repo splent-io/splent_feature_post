@@ -3,6 +3,12 @@
 {% block title %}{{ post.title }} — {{ SPLENT_APP }}{% endblock %}
 
 {% block hero %}
+    {% if preview %}
+    <div class="post-preview-bar" role="status">
+        <span>{{ _('This is a preview. Only logged in users can see this page.') }}</span>
+        <a href="{{ url_for('post.admin_edit', post_id=post.id) }}">{{ _('Back to editing') }}</a>
+    </div>
+    {% endif %}
     {{ render_block('hero', eyebrow=_('Blog'), title=post.title,
                     subtitle=post.date.strftime('%d %b %Y')) }}
 {% endblock %}

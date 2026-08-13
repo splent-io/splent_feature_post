@@ -120,6 +120,18 @@ def admin_index():
     return render_template("post/admin/list.html", posts=posts)
 
 
+def _after_save(post):
+    """Where a successful save lands.
+
+    "Save and preview" submits the form with action=preview, so the post is
+    stored first and the admin is redirected to the preview of what was just
+    saved. Any other submit returns to the list.
+    """
+    if request.form.get("action") == "preview":
+        return redirect(url_for("post.admin_preview", post_id=post.id))
+    return redirect(url_for("post.admin_index"))
+
+
 @post_bp.route("/admin/posts/new", methods=["GET", "POST"])
 @login_required
 def admin_new():
@@ -134,7 +146,7 @@ def admin_new():
         db.session.add(post)
         db.session.commit()
         flash(f"Added {post.title}.", "success")
-        return redirect(url_for("post.admin_index"))
+        return _after_save(post)
     return render_template(
         "post/admin/form.html",
         post=None,
@@ -159,12 +171,30 @@ def admin_edit(post_id):
         _apply_categories(post, request.form)
         db.session.commit()
         flash(f"Updated {post.title}.", "success")
-        return redirect(url_for("post.admin_index"))
+        return _after_save(post)
     return render_template(
         "post/admin/form.html",
         post=post,
         categories=post_service.categories(),
         media=_media_images(),
+    )
+
+
+@post_bp.route("/admin/posts/<int:post_id>/preview", methods=["GET"])
+@login_required
+def admin_preview(post_id):
+    """The post exactly as the public detail template renders it.
+
+    Login-only and deliberately blind to status and schedule, so drafts and
+    scheduled posts can be checked before their time. The template shows a
+    preview bar on top so the screen cannot be mistaken for the live page.
+    """
+    post = Post.query.get_or_404(post_id)
+    return render_template(
+        "post/detail.html",
+        post=post,
+        related=post_service.related(post),
+        preview=True,
     )
 
 

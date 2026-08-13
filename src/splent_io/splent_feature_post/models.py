@@ -70,6 +70,19 @@ class Post(db.Model):
         return self.published_at or datetime.utcnow()
 
     @property
+    def is_scheduled(self):
+        """WordPress semantics. Published with a future date means scheduled.
+
+        The post stays invisible to the public until published_at arrives;
+        the time comparison in the public queries is the whole scheduler.
+        """
+        return (
+            self.status == "published"
+            and self.published_at is not None
+            and self.published_at > datetime.utcnow()
+        )
+
+    @property
     def show_featured(self):
         """Whether to render the standalone featured image on the detail page.
 

@@ -186,3 +186,83 @@ msgstr "Últimas publicaciones"
 #: src/splent_io/splent_feature_post/templates/post/home_latest.html:4
 msgid "View all"
 msgstr "Ver todas"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Link URL"
+msgstr "URL del enlace"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Text formatting"
+msgstr "Formato de texto"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Bold"
+msgstr "Negrita"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Italic"
+msgstr "Cursiva"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Heading 2"
+msgstr "Encabezado 2"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Heading 3"
+msgstr "Encabezado 3"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Bulleted list"
+msgstr "Lista con viñetas"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Numbered list"
+msgstr "Lista numerada"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Blockquote"
+msgstr "Cita"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Link"
+msgstr "Enlace"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Insert image"
+msgstr "Insertar imagen"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Code block"
+msgstr "Bloque de código"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Undo"
+msgstr "Deshacer"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Redo"
+msgstr "Rehacer"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Edit HTML source"
+msgstr "Editar HTML"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Leave empty to publish now. A published post with a future date stays hidden until that time."
+msgstr "Déjalo vacío para publicar ahora. Una entrada publicada con fecha futura permanece oculta hasta ese momento."
+
+#: src/splent_io/splent_feature_post/templates/post/admin/form.html
+msgid "Save and preview"
+msgstr "Guardar y previsualizar"
+
+#: src/splent_io/splent_feature_post/templates/post/admin/list.html
+msgid "Scheduled"
+msgstr "Programada"
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html
+msgid "This is a preview. Only logged in users can see this page."
+msgstr "Esto es una vista previa. Solo los usuarios con sesión iniciada pueden ver esta página."
+
+#: src/splent_io/splent_feature_post/templates/post/detail.html
+msgid "Back to editing"
+msgstr "Volver a la edición"

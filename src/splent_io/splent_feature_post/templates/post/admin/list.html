@@ -23,8 +23,7 @@
             <thead>
                 <tr>
                     <th>{{ _('Title') }}</th>
-                    <th style="width:140px">{{ _('Date') }}</th>
-                    <th style="width:120px">{{ _('Status') }}</th>
+                    <th style="width:200px">{{ _('Status') }}</th>
                     <th style="width:160px" class="text-end">{{ _('Actions') }}</th>
                 </tr>
             </thead>
@@ -35,14 +34,24 @@
                         <strong>{{ p.title }}</strong>
                         <div class="text-muted small">{{ p.slug }}</div>
                     </td>
-                    <td>{{ p.date.strftime('%Y-%m-%d') }}</td>
-                    <td>
-                        {% if p.status == 'published' %}
-                        <span class="badge bg-success">{{ _('Published') }}</span>
-                        {% else %}
+                    {# data-post-state carries the machine-readable state so
+                       tests and scripts stay independent of the translated
+                       label. Scheduled and published both show their date. #}
+                    {% if p.status != 'published' %}
+                    <td data-post-state="draft">
                         <span class="badge bg-secondary">{{ _('Draft') }}</span>
-                        {% endif %}
                     </td>
+                    {% elif p.is_scheduled %}
+                    <td data-post-state="scheduled">
+                        <span class="badge bg-warning text-dark">{{ _('Scheduled') }}</span>
+                        <div class="text-muted small">{{ p.published_at.strftime('%Y-%m-%d %H:%M') }}</div>
+                    </td>
+                    {% else %}
+                    <td data-post-state="published">
+                        <span class="badge bg-success">{{ _('Published') }}</span>
+                        <div class="text-muted small">{{ p.date.strftime('%Y-%m-%d %H:%M') }}</div>
+                    </td>
+                    {% endif %}
                     <td class="text-end">
                         <a href="{{ url_for('post.admin_edit', post_id=p.id) }}" class="btn btn-sm btn-outline-primary">{{ _('Edit') }}</a>
                         <form method="POST" action="{{ url_for('post.admin_delete', post_id=p.id) }}" class="d-inline" onsubmit="return confirm('{{ _('Remove this post?') }}')">
@@ -53,7 +62,7 @@
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="4" class="text-muted text-center py-4">{{ _('No posts yet.') }}</td>
+                    <td colspan="3" class="text-muted text-center py-4">{{ _('No posts yet.') }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
