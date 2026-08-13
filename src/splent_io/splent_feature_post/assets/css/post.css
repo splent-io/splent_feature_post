@@ -48,10 +48,10 @@
     max-width: 100%;
 }
 
-/* Related-posts sidebar. */
+/* Related-posts sidebar. It stays where the layout puts it and scrolls with
+ * the page: sticky looked clever but a list taller than the viewport gets
+ * clipped and rides over the content while scrolling. */
 .post-aside {
-    position: sticky;
-    top: 1.5rem;
     padding: 1.25rem 1.5rem;
     background: var(--brand-surface);
     border: 1px solid var(--brand-border);
@@ -104,10 +104,6 @@
 @media (max-width: 48rem) {
     .post-layout {
         grid-template-columns: 1fr;
-    }
-
-    .post-aside {
-        position: static;
     }
 }
 
