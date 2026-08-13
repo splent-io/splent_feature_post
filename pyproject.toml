@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "splent_feature_post"
-version = "0.4.2"
+version = "0.5.0"
 readme = "README.md"
 requires-python = ">=3.13"
 
@@ -46,7 +46,7 @@ translations = ["en", "es"]
 docker     = []
 
 [tool.splent.contract.requires]
-features = []
+features = ["auth"]
 features_optional = ["media"]
 env_vars = ["POST_INDEX_PATH", "POST_NAV_LABEL", "POST_PAGE_SIZE", "POST_PERMALINK"]
 signals  = []
