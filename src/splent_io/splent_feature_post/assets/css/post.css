@@ -48,10 +48,21 @@
     max-width: 100%;
 }
 
-/* Related-posts sidebar. It stays where the layout puts it and scrolls with
- * the page: sticky looked clever but a list taller than the viewport gets
- * clipped and rides over the content while scrolling. */
+/* Related-posts sidebar. At rest it sits flush with the top of the article
+ * (the category badges); on scroll it sticks just below the site header,
+ * never sliding underneath it. The offset is the header's measured height
+ * (--site-header-offset, published by the theme), because the header grows
+ * with the product's logo. Lists taller than the viewport scroll inside the
+ * panel instead of clipping. */
+.post-main > :first-child {
+    margin-top: 0;
+}
+
 .post-aside {
+    position: sticky;
+    top: var(--site-header-offset, 6.5rem);
+    max-height: calc(100vh - var(--site-header-offset, 6.5rem) - 1.5rem);
+    overflow-y: auto;
     padding: 1.25rem 1.5rem;
     background: var(--brand-surface);
     border: 1px solid var(--brand-border);
@@ -100,10 +111,17 @@
     color: var(--brand-muted);
 }
 
-/* Stack on narrow screens. */
+/* Stack on narrow screens: the panel goes back into the flow, sticking a
+ * full-width card over the article would cover it. */
 @media (max-width: 48rem) {
     .post-layout {
         grid-template-columns: 1fr;
+    }
+
+    .post-aside {
+        position: static;
+        max-height: none;
+        overflow: visible;
     }
 }
 
