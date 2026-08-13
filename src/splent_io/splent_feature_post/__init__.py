@@ -64,8 +64,35 @@ def build_permalink(app, post) -> str:
 
 def init_feature(app):
     from splent_framework.assets.asset_registry import register_asset
+    from splent_framework.settings.settings_schema import register_settings
 
     register_service(app, "PostService", PostService)
+
+    # Admin-configurable behaviour (framework renders the panel from this
+    # schema). Only request-time values belong here: POST_INDEX_PATH and
+    # POST_NAV_LABEL shape routes and nav at init time, so a panel value
+    # would claim a change it cannot deliver until restart.
+    register_settings(
+        "post",
+        "Posts",
+        [
+            {
+                "key": "page_size",
+                "type": "int",
+                "default": "10",
+                "label": "Posts per page",
+                "help": "How many posts each page of the blog index and of a category archive shows.",
+            },
+            {
+                "key": "home_count",
+                "type": "int",
+                "default": "3",
+                "label": "Posts on the home page",
+                "help": "How many recent posts the latest posts section shows. 0 hides the section.",
+            },
+        ],
+        icon="file-text",
+    )
 
     index_path = _index_path(app)
 

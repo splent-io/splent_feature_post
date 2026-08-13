@@ -170,6 +170,44 @@ def test_index_path_defaults_to_blog():
     assert norm(_FakeApp("news/")) == "/news"
 
 
+def test_home_latest_respects_home_count(test_client):
+    """The home hook shows POST_HOME_COUNT posts, read at request time.
+
+    Exercised on the hook directly: the home page itself belongs to the
+    public feature, which the product under test may or may not install.
+    """
+    from splent_io.splent_feature_post.hooks import latest_posts_section
+
+    app = test_client.application
+    _create_published_posts(app, 5)
+    original = app.config.get("POST_HOME_COUNT", 3)
+    app.config["POST_HOME_COUNT"] = 2
+    try:
+        with app.test_request_context("/"):
+            html = str(latest_posts_section())
+    finally:
+        app.config["POST_HOME_COUNT"] = original
+    # Newest first: with a count of 2 only posts 04 and 03 make the cut.
+    assert "Pagination post 04" in html
+    assert "Pagination post 03" in html
+    assert "Pagination post 02" not in html
+
+
+def test_home_latest_zero_hides_the_section(test_client):
+    """POST_HOME_COUNT=0 collapses the section to nothing."""
+    from splent_io.splent_feature_post.hooks import latest_posts_section
+
+    app = test_client.application
+    _create_published_posts(app, 2)
+    original = app.config.get("POST_HOME_COUNT", 3)
+    app.config["POST_HOME_COUNT"] = 0
+    try:
+        with app.test_request_context("/"):
+            assert latest_posts_section() == ""
+    finally:
+        app.config["POST_HOME_COUNT"] = original
+
+
 def test_index_path_is_configurable(test_app):
     """POST_INDEX_PATH=/news moves the public index, archive and nav to /news.
 

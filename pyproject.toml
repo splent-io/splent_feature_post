@@ -73,6 +73,9 @@ POST_INDEX_PATH = "/blog"
 # Posts per page on the public blog index and category archives.
 POST_PAGE_SIZE = 10
 
+# Recent posts the home "Latest posts" section shows. 0 hides the section.
+POST_HOME_COUNT = 3
+
 # Label of the feature's entry in the public main navigation. A product may
 # prefer "News" or a translated word; pair it with POST_INDEX_PATH.
 POST_NAV_LABEL = "Blog"

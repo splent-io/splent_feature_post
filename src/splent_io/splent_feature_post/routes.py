@@ -1,13 +1,14 @@
 import re
 from datetime import datetime
 
-from flask import abort, current_app, flash, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 
 from splent_io.splent_feature_post import post_bp
 from splent_io.splent_feature_post.models import Category, Post
 from splent_framework.db import db
 from splent_framework.services.service_locator import service_proxy
+from splent_framework.settings.settings_schema import get_config
 
 post_service = service_proxy("PostService")
 
@@ -18,7 +19,8 @@ post_service = service_proxy("PostService")
 # (default /blog), like the permalink route that serves post detail.
 # =====================================================================
 def _page_size():
-    return current_app.config.get("POST_PAGE_SIZE", 10)
+    # Panel value first, then POST_PAGE_SIZE, then the schema default.
+    return get_config("post").get("page_size") or 10
 
 
 def index():

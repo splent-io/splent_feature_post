@@ -4,6 +4,7 @@ from markupsafe import Markup
 
 from splent_framework.hooks.template_hooks import register_template_hook
 from splent_framework.services.service_locator import service_proxy
+from splent_framework.settings.settings_schema import get_config
 
 
 def post_admin_link():
@@ -28,9 +29,11 @@ def latest_posts_section():
 
     Surfaces the most recent published posts on the public home page. Returns
     an empty string when there are no published posts, so the slot collapses
-    cleanly rather than rendering an empty heading.
+    cleanly rather than rendering an empty heading. How many posts appear is
+    admin-configurable (get_config("post"), home_count); 0 hides the section.
     """
-    posts = service_proxy("PostService").published()[:3]
+    count = get_config("post").get("home_count", 3)
+    posts = service_proxy("PostService").published()[:count]
     if not posts:
         return ""
     return Markup(render_template("post/home_latest.html", posts=posts))
